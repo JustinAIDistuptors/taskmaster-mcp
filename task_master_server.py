@@ -206,17 +206,6 @@ async def health_check():
     return {"status": "healthy"}
 
 if __name__ == "__main__":
-    import argparse
-    
-    parser = argparse.ArgumentParser(description="Task Master MCP Server")
-    parser.add_argument("--host", type=str, default="127.0.0.1", help="Host to bind to")
-    parser.add_argument("--port", type=int, default=8000, help="Port to bind to")
-    parser.add_argument("--transport", type=str, default="http", help="Transport protocol (http or websocket)")
-    
-    args = parser.parse_args()
-    
-    if args.transport == "http":
-        uvicorn.run(app, host=args.host, port=args.port)
-    else:
-        logger.error(f"Transport {args.transport} not supported")
-        exit(1)
+    port = int(os.environ.get("PORT", "8000"))
+    logger.info(f"Starting Task Master MCP Server on port {port}")
+    uvicorn.run(app, host="0.0.0.0", port=port)
