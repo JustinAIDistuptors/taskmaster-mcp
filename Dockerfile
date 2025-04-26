@@ -6,16 +6,15 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the MCP server implementation
-COPY app/task_master_server.py .
+# Copy application code
+COPY app/task_master_server.py ./app.py
+
+# Expose port
+EXPOSE 8000
 
 # Set environment variables
 ENV PORT=8000
 ENV LOG_LEVEL=debug
-ENV PYTHONUNBUFFERED=1
 
-# Expose the port
-EXPOSE 8000
-
-# Run the MCP server
-CMD ["python", "task_master_server.py"]
+# Run the application with proxy headers enabled
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers"]
