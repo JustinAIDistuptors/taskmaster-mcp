@@ -11,9 +11,7 @@ primary_region = "mia"
   auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 1
-
-[processes]
-  app = "python task_master_server.py"
+  processes = ["app"]
 
 [vm]
   cpu_kind = "shared"
